@@ -15,6 +15,13 @@ public:
 	DateTimeModule &operator=(DateTimeModule const &other);
 
 	virtual ~DateTimeModule();
+
+	std::string &getValue() override;
+
+	void updateValue() override;
+
+private:
+	std::string _value;
 };
 
 

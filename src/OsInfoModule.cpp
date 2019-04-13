@@ -1,7 +1,9 @@
 #include "OsInfoModule.hpp"
 
 OsInfoModule::OsInfoModule()
-{}
+{
+	updateValue();
+}
 
 OsInfoModule::OsInfoModule(OsInfoModule const &other)
 {
@@ -15,3 +17,15 @@ OsInfoModule &OsInfoModule::operator=(OsInfoModule const &other)
 
 OsInfoModule::~OsInfoModule()
 {}
+
+std::string &OsInfoModule::getValue()
+{
+	return _value;
+}
+
+void OsInfoModule::updateValue()
+{
+	struct utsname uts;
+	uname(&uts);
+	_value = uts.version;
+}

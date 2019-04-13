@@ -14,6 +14,13 @@ public:
 	HostnameModule &operator=(HostnameModule const &other);
 
 	virtual ~HostnameModule();
+
+	std::string &getValue() override;
+
+	void updateValue() override;
+
+private:
+	std::string _value;
 };
 
 

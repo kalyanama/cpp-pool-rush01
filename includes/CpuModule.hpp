@@ -14,6 +14,14 @@ public:
 	CpuModule &operator=(CpuModule const &other);
 
 	virtual ~CpuModule();
+	
+	void updateValue() override;
+
+	std::string &getValue() override;
+
+private:
+	std::string _value;
+
 };
 
 

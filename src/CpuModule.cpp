@@ -1,7 +1,10 @@
+#include <sys/sysctl.h>
 #include "CpuModule.hpp"
-
+#define BUFFERLEN 128
 CpuModule::CpuModule()
-{}
+{
+	updateValue();
+}
 
 CpuModule::CpuModule(CpuModule const &other)
 {
@@ -15,3 +18,17 @@ CpuModule &CpuModule::operator=(CpuModule const &other)
 
 CpuModule::~CpuModule()
 {}
+
+std::string &CpuModule::getValue()
+{
+	return _value;
+}
+
+void CpuModule::updateValue()
+{
+	char buffer[BUFFERLEN];
+	size_t bufferlen = BUFFERLEN;
+	sysctlbyname("machdep.cpu.brand_string",&buffer,&bufferlen,NULL,0);
+
+	_value = buffer;
+}
