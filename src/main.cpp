@@ -1,24 +1,9 @@
+
 #include <iostream>
-#include <stdio.h>
-#include <stdint.h>
-#include <sys/types.h>
-#include <sys/sysctl.h>
+#include "../includes/GraphicalUI.hpp"
 
-//Test funct
-uint64_t get_cpu_freq(void)
+int     main(void)
 {
-	uint64_t freq = 0;
-	size_t size = sizeof(freq);
-
-	if (sysctlbyname("hw.cpufrequency", &freq, &size, NULL, 0) < 0)
-	{
-		perror("sysctl");
-	}
-	return freq;
-}
-
-int main()
-{
-	std::cout << get_cpu_freq() << std::endl;
-	return 0;
+    int test = SDL_Init(SDL_INIT_EVERYTHING);
+    std::cout << test << std::endl;
 }
