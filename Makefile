@@ -18,22 +18,25 @@ OBJ = $(addprefix $(OBJ_DIR),$(SRC:.cpp=.o))
 NAME = rush
 CFLAG = -Wall -Wextra -Werror
 CC = clang++
-INC =	../includes/GraphicalUI.hpp
+INC =	-I./includes/GraphicalUI.hpp\
+		-I./frameworks/SDL2.framework/Versions/A/Headers\
+		-I./frameworks/SDL2_ttf.framework/Versions/A/Headers\
+		-I./frameworks/SDL2_image.framework/Versions/A/Headers
+
+FRAMEWORKS = -F./frameworks \
+			-rpath ./frameworks \
+			-framework SDL2 -framework SDL2_ttf -framework SDL2_image
 
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJ)
-	sh ./install.sh
-	$(CC) $(CFLAG) -lncurses  -L ./build/lib -lSDL2 -lm -liconv -L lib -l SDL2-2.0.0 $(OBJ) -o $(NAME)
+	$(CC) $(CFLAG) $(OBJ) -o $(NAME) $(FRAMEWORKS) $(INC)
 
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)
 
-$(OBJ_DIR)%.o:$(SRC_DIR)%.cpp $(INC)
-	$(CC) $(CFLAG) -I/includes -I./build/include/SDL2/ -c $< -o $@
-
-dellib:
-	rm -rf ./build
+$(OBJ_DIR)%.o:$(SRC_DIR)%.cpp
+	$(CC) $(CFLAG)  $(INC) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -41,7 +44,6 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
-	rm -Rf ./Downloads
 
 exe:
 	./$(NAME)
