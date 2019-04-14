@@ -8,7 +8,7 @@
 class OsInfoModule :  public virtual IMonitorModule
 {
 public:
-	OsInfoModule();
+	OsInfoModule(TopInfo const &top);
 
 	OsInfoModule(OsInfoModule const &other);
 
@@ -18,9 +18,13 @@ public:
 
 	std::string &getValue() ;
 
-	void update();
+	void update(TopInfo const &top);
+	std::string &getModuleName();
+
 
 private:
+	OsInfoModule();
+	static std::string _moduleName;
 	std::string _value;
 };
 

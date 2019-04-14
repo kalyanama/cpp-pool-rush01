@@ -7,13 +7,28 @@
 class NetworkModule :  public virtual IMonitorModule
 {
 public:
-	NetworkModule();
+	NetworkModule(TopInfo const &top);
 
 	NetworkModule(NetworkModule const &other);
 
 	NetworkModule &operator=(NetworkModule const &other);
 
 	virtual ~NetworkModule();
+
+	std::string &getValue();
+
+	std::string &getModuleName() ;
+
+	void update(TopInfo const &top) ;
+
+	const std::map<std::string, std::string> &getNetworkParams() const;
+
+private:
+	NetworkModule();
+	std::string _value;
+	static std::string _moduleName;
+	std::map<std::string, std::string> _networkParams;
+	void updateParams();
 };
 
 

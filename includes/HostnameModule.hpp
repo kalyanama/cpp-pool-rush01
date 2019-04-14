@@ -7,7 +7,8 @@
 class HostnameModule :  public virtual IMonitorModule
 {
 public:
-	HostnameModule();
+
+	HostnameModule(TopInfo const &top);
 
 	HostnameModule(HostnameModule const &other);
 
@@ -17,9 +18,13 @@ public:
 
 	std::string &getValue();
 
-	void update();
+	void update(TopInfo const &top);
+
+	std::string &getModuleName();
 
 private:
+	HostnameModule();
+	static std::string _moduleName;
 	std::string _value;
 };
 

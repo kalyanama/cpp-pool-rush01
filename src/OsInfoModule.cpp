@@ -1,8 +1,8 @@
 #include "OsInfoModule.hpp"
 
-OsInfoModule::OsInfoModule()
+OsInfoModule::OsInfoModule(TopInfo const &top)
 {
-	update();
+	update(top);
 }
 
 OsInfoModule::OsInfoModule(OsInfoModule const &other)
@@ -23,9 +23,20 @@ std::string &OsInfoModule::getValue()
 	return _value;
 }
 
-void OsInfoModule::update()
+void OsInfoModule::update(TopInfo const &top)
 {
+	static_cast<void>(top);
 	struct utsname uts;
 	uname(&uts);
 	_value = uts.version;
 }
+
+std::string &OsInfoModule::getModuleName()
+{
+	return OsInfoModule::_moduleName;
+}
+
+std::string OsInfoModule::_moduleName = "osinfo";
+
+OsInfoModule::OsInfoModule()
+{}

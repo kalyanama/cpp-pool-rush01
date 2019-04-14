@@ -10,7 +10,8 @@
 class CpuModule: public virtual IMonitorModule
 {
 public:
-	CpuModule();
+
+	CpuModule(TopInfo const &top);
 
 	CpuModule(CpuModule const &other);
 
@@ -18,11 +19,15 @@ public:
 
 	virtual ~CpuModule();
 
-	void update();
+	void update(TopInfo const &top);
 	std::string &getValue();
 	std::map<std::string, float> getCpuParameters();
 
+	std::string &getModuleName();
+
 private:
+	CpuModule();
+	static std::string _moduleName;
 	std::string _value;
 	std::map< std::string, float > _map;
 	void	setCpuName();

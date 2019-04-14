@@ -3,13 +3,14 @@
 
 #include <iostream>
 #include "IMonitorModule.hpp"
+#include <map>
 
 
 class DateTimeModule: public virtual IMonitorModule
 {
 public:
-	DateTimeModule();
 
+	DateTimeModule(TopInfo const &top);
 	DateTimeModule(DateTimeModule const &other);
 
 	DateTimeModule &operator=(DateTimeModule const &other);
@@ -18,9 +19,12 @@ public:
 
 	std::string &getValue();
 
-	void update();
+	void update(TopInfo const &top);
+	std::string &getModuleName();
 
 private:
+	DateTimeModule();
+	static std::string _moduleName;
 	std::string _value;
 };
 

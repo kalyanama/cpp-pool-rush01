@@ -10,8 +10,12 @@
 #include <OsInfoModule.hpp>
 #include <DateTimeModule.hpp>
 #include <CpuModule.hpp>
+#include <RamModule.hpp>
+#include <NetworkModule.hpp>
 #include "HostnameModule.hpp"
 #include "UsernameModule.hpp"
+#include "TopInfo.hpp"
+
 
 //Test functr
 uint64_t get_cpu_freq(void)
@@ -40,24 +44,42 @@ void PrintMacOsXVersion()
 
 int main()
 {
-	HostnameModule host = HostnameModule();
-	UsernameModule user = UsernameModule();
-	OsInfoModule os = OsInfoModule();
-	DateTimeModule dt = DateTimeModule();
-	CpuModule cpu = CpuModule();
+	TopInfo info = TopInfo();
+	HostnameModule host = HostnameModule(info);
+	UsernameModule user = UsernameModule(info);
+	OsInfoModule os = OsInfoModule(info);
+	DateTimeModule dt = DateTimeModule(info);
+	CpuModule cpu = CpuModule(info);
+	RamModule ram = RamModule(info);
+	NetworkModule net = NetworkModule(info);
 
 	std::cout << host.getValue() << std::endl;
 	std::cout << user.getValue() << std::endl;
 	std::cout << os.getValue() << std::endl;
 	std::cout << dt.getValue() << std::endl;
 	std::cout << cpu.getValue() << std::endl;
+	std::cout << ram.getValue() << std::endl;
+	std::cout << net.getValue() << std::endl;
+
 	std::map<std::string, float> cpuParams = cpu.getCpuParameters();
+	std::map<std::string, float> ramParams = ram.getRamParams();
+	std::map<std::string, std::string> netParams = net.getNetworkParams();
+	std::cout << "Cpu : " << std::endl;
 
 	for(std::map<std::string, float >::const_iterator it = cpuParams.begin(); it != cpuParams.end(); ++it)
 	{
 		std::cout << it->first << " => " << it->second << "\n";
 	}
+	std::cout << "Ram : " << std::endl;
+	for(std::map<std::string, float >::const_iterator it = ramParams.begin(); it != ramParams.end(); ++it)
+	{
+		std::cout << it->first << " => " << it->second << "\n";
+	}
+	std::cout << "Network : " << std::endl;
+	for(std::map<std::string, std::string >::const_iterator it = netParams.begin(); it != netParams.end(); ++it)
+	{
+		std::cout << it->first << " => " << it->second << "\n";
+	}
 
-	//	PrintMacOsXVersion();
 	return 0;
 }

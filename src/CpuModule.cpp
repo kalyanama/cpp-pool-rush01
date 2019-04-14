@@ -1,40 +1,9 @@
 #include <sys/sysctl.h>
 #include <CpuModule.hpp>
-
+#include <sstream>
 #include "CpuModule.hpp"
 
 #define BUFFERLEN 128
-
-CpuModule::CpuModule()
-{
-	setCpuName();
-	update();
-}
-
-CpuModule::CpuModule(CpuModule const &other)
-{
-	*this = other;
-}
-
-CpuModule &CpuModule::operator=(CpuModule const &other)
-{
-	return *this;
-}
-
-CpuModule::~CpuModule()
-{}
-
-std::string &CpuModule::getValue()
-{
-	getCpuParameters();
-	return _value;
-}
-
-
-void CpuModule::update()
-{
-	updateParams();
-}
 
 static int getCoreNums()
 {
@@ -52,6 +21,45 @@ static int getCoreNums()
 	return numCPU;
 }
 
+CpuModule::CpuModule(TopInfo const &top)
+{
+	update(top);
+	_value.push_back(';');
+	setCpuName();
+	_value.push_back(';');
+	_value += "cores=";
+	_value += std::to_string(getCoreNums());
+	updateParams();
+}
+
+CpuModule::CpuModule(CpuModule const &other)
+{
+	*this = other;
+}
+
+CpuModule &CpuModule::operator=(CpuModule const &other)
+{
+	return *this;
+}
+
+CpuModule::~CpuModule()
+{}
+
+
+std::string &CpuModule::getValue()
+{
+	return _value;
+}
+
+void CpuModule::update(TopInfo const &top)
+{
+	std::map<std::string, std::string> temp;
+	temp = top.getData();
+
+	_value = temp["CPU usage"];
+	updateParams();
+}
+
 std::map<std::string, float> CpuModule::getCpuParameters()
 {
 	return _map;
@@ -63,23 +71,18 @@ void CpuModule::setCpuName()
 	size_t bufferlen = BUFFERLEN;
 	sysctlbyname("machdep.cpu.brand_string", &buffer, &bufferlen, NULL, 0);
 
-	_value = buffer;
+	_value += buffer;
 }
 
 void CpuModule::updateParams()
 {
-	system("top -F -n0 -l1 | grep \"CPU usage\" > /tmp/Cpu_Usage");
-	std::ifstream ifs("/tmp/Cpu_Usage");
-	if (!ifs)
-	{
-		throw std::exception();
-	}
+	std::stringstream ifs(_value);
 	std::string skip, user_key, sys_key, idle_key;
+
 	float user_value, sys_value, idle_value;
 
 
-	ifs >> skip >> skip
-		>> user_value >> skip >> user_key
+	ifs >> user_value >> skip >> user_key
 		>> sys_value >> skip >> sys_key
 		>> idle_value >> skip >> idle_key;
 
@@ -90,7 +93,15 @@ void CpuModule::updateParams()
 	_map.insert(std::pair<std::string, float>(user_key, user_value));
 	_map.insert(std::pair<std::string, float>(sys_key, sys_value));
 	_map.insert(std::pair<std::string, float>(idle_key, idle_value));
-	_map.insert(std::pair<std::string, float>("cores", getCoreNums()));
-
-	ifs.close();
+//	_map.insert(std::pair<std::string, float>("cores", getCoreNums()));
 }
+
+std::string &CpuModule::getModuleName()
+{
+	return CpuModule::_moduleName;
+}
+
+std::string CpuModule::_moduleName = "cpu";
+
+CpuModule::CpuModule()
+{}

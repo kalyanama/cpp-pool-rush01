@@ -4,10 +4,12 @@
 
 #include "UsernameModule.hpp"
 #include <iostream>
+#include <UsernameModule.hpp>
 
-UsernameModule::UsernameModule()
+
+UsernameModule::UsernameModule(TopInfo const &top)
 {
-	update();
+	update(top);
 }
 
 UsernameModule::UsernameModule(UsernameModule const &other)
@@ -28,9 +30,21 @@ std::string &UsernameModule::getValue()
 	return _value;
 }
 
-void UsernameModule::update()
+void UsernameModule::update(TopInfo const &top)
 {
 	char username[_POSIX_LOGIN_NAME_MAX];
 	getlogin_r(username, _POSIX_LOGIN_NAME_MAX);
 	_value = username;
+}
+
+std::string &UsernameModule::getModuleName()
+{
+	return UsernameModule::_moduleName;
+}
+
+std::string UsernameModule::_moduleName = "username";
+
+UsernameModule::UsernameModule()
+{
+
 }
