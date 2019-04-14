@@ -11,17 +11,42 @@
 # **************************************************************************** #
 
 SRC =	main.cpp\
-		GraphicalUI.cpp
+		GraphicalUI.cpp \
+		CpuModule.cpp \
+        DateTimeModule.cpp \
+        GraphicalUI.cpp \
+        HostnameModule.cpp \
+        NcursesDisplayMode.cpp \
+        NetworkModule.cpp \
+        OsInfoModule.cpp \
+        RamModule.cpp \
+        UsernameModule.cpp \
+        TopInfo.cpp \
+
+
 SRC_DIR = ./src/
 OBJ_DIR = ./obj/
 OBJ = $(addprefix $(OBJ_DIR),$(SRC:.cpp=.o))
 NAME = rush
-CFLAG = -Wall -Wextra -Werror
+CFLAG = #-Wall -Wextra -Werror
 CC = clang++
 INC =	-I./includes/GraphicalUI.hpp\
 		-I./frameworks/SDL2.framework/Versions/A/Headers\
 		-I./frameworks/SDL2_ttf.framework/Versions/A/Headers\
-		-I./frameworks/SDL2_image.framework/Versions/A/Headers
+		-I./frameworks/SDL2_image.framework/Versions/A/Headers \
+		-I./includes/CpuModule.hpp \
+        -I./includes/DateTimeModule.hpp \
+        -I./includes/HostnameModule.hpp \
+        -I./includes/IDisplayMonitor.hpp \
+        -I./includes/IMonitorModule.hpp \
+        -I./includes/NcursesDisplayMode.hpp \
+        -I./includes/NetworkModule.hpp \
+        -I./includes/OsInfoModule.hpp \
+        -I./includes/RamModule.hpp \
+        -I./includes/TopInfo.hpp \
+        -I./includes/UsernameModule.hpp \
+        -I./includes/
+
 
 FRAMEWORKS = -F./frameworks \
 			-rpath ./frameworks \

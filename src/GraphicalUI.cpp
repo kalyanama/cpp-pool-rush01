@@ -1,5 +1,5 @@
 
-#include "../includes/GraphicalUI.hpp"
+#include "GraphicalUI.hpp"
 #include <iostream>
 
 GraphicalUI::GraphicalUI	(void) : _ww(750), _wh(450)
@@ -21,6 +21,7 @@ GraphicalUI::GraphicalUI	(void) : _ww(750), _wh(450)
 	if (TTF_Init() == -1)
 		throw WinInitProblem();
 	_font1 = TTF_OpenFont("./frameworks/OpenSans-Regular.ttf", _font_size);
+	top.update();
 }
 
 GraphicalUI::GraphicalUI	(GraphicalUI const & inst)
@@ -179,6 +180,7 @@ void		GraphicalUI::main_loop()
 	_sdl_done = SDL_FALSE;
 	while (!_sdl_done)
 	{
+		updateModules(modules, top);
 		render();
 		if (_g_mw || _g_mh)
 			draw_graph(_g_x, _g_y);
@@ -225,4 +227,50 @@ const & inst)
 {
 	(void)inst;
 	return *this;
+}
+
+void GraphicalUI::addModules(std::vector<std::string> &flags, TopInfo const &top, std::vector<IMonitorModule *> &modules)
+{
+
+	for (std::vector<std::string>::iterator it = flags.begin();  it < flags.end(); ++it)
+	{
+		if (*it == "-c")
+			modules.push_back(new CpuModule(top));
+		if (*it == "-m")
+			modules.push_back(new RamModule(top));
+		if (*it == "-n")
+			modules.push_back(new NetworkModule(top));
+
+	}
+}
+
+void	GraphicalUI::updateModules(std::vector<IMonitorModule *> & modules, TopInfo & top)
+{
+	top.update();
+	for (std::vector<IMonitorModule *>::iterator it = modules.begin();  it < modules.end(); ++it)
+	{
+		(*it)->update(top);
+	}
+}
+
+void GraphicalUI::displayGKrellm(std::vector<std::string> &flags)
+{
+	modules.push_back(new HostnameModule(top));
+	modules.push_back(new UsernameModule(top));
+	modules.push_back(new OsInfoModule(top));
+	modules.push_back(new DateTimeModule(top));
+
+	if (flags.size() > 0)
+		addModules(flags, top, modules);
+	GraphicalUI render;
+
+	srand(time(NULL));
+	try
+	{
+		render.sdl_init();
+	}
+	catch(GraphicalUI::WinInitProblem & e)
+	{
+		std::cerr << e.what() << std::endl;
+	}
 }

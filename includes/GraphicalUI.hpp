@@ -5,8 +5,19 @@
 #include <iostream>
 # include "./../frameworks/SDL2.framework/Headers/SDL.h"
 # include "./../frameworks/SDL2_ttf.framework/Headers/SDL_ttf.h"
+#include "IDisplayMonitor.hpp"
+#include <vector>
+#include "CpuModule.hpp"
+#include "RamModule.hpp"
+#include "NetworkModule.hpp"
+#include "TopInfo.hpp"
+#include "HostnameModule.hpp"
+#include "UsernameModule.hpp"
+#include "OsInfoModule.hpp"
+#include "DateTimeModule.hpp"
+#include "IMonitorModule.hpp"
 
-class GraphicalUI
+class GraphicalUI :  public virtual IDisplayMonitor
 {
 public:
 
@@ -34,6 +45,10 @@ public:
 	// render modules
 	void				UsrInfo();
 	void				CPULoad();
+
+	void	displayGKrellm(std::vector<std::string> &flags);
+	void	addModules(std::vector<std::string> &flags, TopInfo const &top, std::vector<IMonitorModule *> &modules);
+	void	updateModules(std::vector<IMonitorModule *> & modules, TopInfo & top);
 private:
 
 	int					_ww;
@@ -56,6 +71,8 @@ private:
 	int					_g_y;
 	int					_g_mw;
 	int					_g_mh;
+	std::vector<IMonitorModule *> modules;
+	TopInfo 	 top;
 };
 
 #endif

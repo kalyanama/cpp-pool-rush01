@@ -7,17 +7,16 @@
 #include <mach/mach_error.h>
 #include <mach/mach_host.h>
 #include <mach/vm_map.h>
-#include <OsInfoModule.hpp>
-#include <DateTimeModule.hpp>
-#include <CpuModule.hpp>
-#include <RamModule.hpp>
-#include <NetworkModule.hpp>
+#include "OsInfoModule.hpp"
+#include "DateTimeModule.hpp"
+#include "CpuModule.hpp"
+#include "RamModule.hpp"
+#include "NetworkModule.hpp"
 #include "HostnameModule.hpp"
 #include "UsernameModule.hpp"
 #include "TopInfo.hpp"
 #include "NcursesDisplayMode.hpp"
-#include "SdlDisplayMode.hpp"
-
+#include "GraphicalUI.hpp"
 
 //Test functr
 uint64_t get_cpu_freq(void)
@@ -54,9 +53,9 @@ void ncurses(std::vector<std::string> & flags)
 
 void graphic(std::vector<std::string> & flags)
 {
-	IDisplayMonitor *sdlDisplay = new SdlDisplayMode();
+	IDisplayMonitor *graphicalUI = new GraphicalUI();
 
-	sdlDisplay->displayGKrellm(flags);
+	graphicalUI->displayGKrellm(flags);
 }
 
 void	printUsage()
