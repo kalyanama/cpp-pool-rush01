@@ -7,17 +7,13 @@
 
 
 #include "IMonitorModule.hpp"
-
+#include <vector>
 class IDisplayMonitor
 {
-//public:
-//	ncurses()
-//	graphic();
-//
-//	addModule();
-//
-//private:
-//	IMonitorModule *[];
+public:
+	virtual void displayGKrellm(std::vector<std::string> &flags) = 0;
+	virtual void addModules(std::vector<std::string> &flags, TopInfo const &top, std::vector<IMonitorModule *> &modules) = 0;
+	virtual void updateModules(std::vector<IMonitorModule *> & modules, TopInfo & top) = 0;
 };
 
 
