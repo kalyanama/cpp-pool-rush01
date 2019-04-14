@@ -7,7 +7,7 @@
 
 UsernameModule::UsernameModule()
 {
-	updateValue();
+	update();
 }
 
 UsernameModule::UsernameModule(UsernameModule const &other)
@@ -28,7 +28,7 @@ std::string &UsernameModule::getValue()
 	return _value;
 }
 
-void UsernameModule::updateValue()
+void UsernameModule::update()
 {
 	char username[_POSIX_LOGIN_NAME_MAX];
 	getlogin_r(username, _POSIX_LOGIN_NAME_MAX);

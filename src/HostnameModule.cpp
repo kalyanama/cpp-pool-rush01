@@ -3,7 +3,7 @@
 
 HostnameModule::HostnameModule()
 {
-	updateValue();
+	update();
 }
 
 HostnameModule::HostnameModule(HostnameModule const &other)
@@ -23,7 +23,7 @@ std::string &HostnameModule::getValue() {
 	return (_value);
 }
 
-void HostnameModule::updateValue() {
+void HostnameModule::update() {
 	struct utsname uts;
 	uname(&uts);
 	_value = uts.nodename;

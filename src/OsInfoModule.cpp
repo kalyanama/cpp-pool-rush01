@@ -2,7 +2,7 @@
 
 OsInfoModule::OsInfoModule()
 {
-	updateValue();
+	update();
 }
 
 OsInfoModule::OsInfoModule(OsInfoModule const &other)
@@ -23,7 +23,7 @@ std::string &OsInfoModule::getValue()
 	return _value;
 }
 
-void OsInfoModule::updateValue()
+void OsInfoModule::update()
 {
 	struct utsname uts;
 	uname(&uts);

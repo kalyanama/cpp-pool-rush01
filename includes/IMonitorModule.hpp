@@ -5,11 +5,27 @@
 #include <unistd.h>
 #include <limits.h>
 
+/*
+ * TODO:
+ * 	CpuModule -- cpu activity by cores
+ * 	RamModule
+ * 	NetworkModule
+ *
+ * TODO:
+ * 	Add more functions to module;
+ * 	Displays
+ *
+ *
+ *
+ */
+
+
+
 class IMonitorModule
 {
 public:
 	virtual std::string &getValue() = 0;
-	virtual void updateValue() = 0;
+	virtual void update() = 0;
 };
 
 

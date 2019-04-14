@@ -2,7 +2,7 @@
 
 DateTimeModule::DateTimeModule()
 {
-	updateValue();
+	update();
 }
 
 DateTimeModule::DateTimeModule(DateTimeModule const &other)
@@ -23,7 +23,7 @@ std::string &DateTimeModule::getValue()
 	return _value;
 }
 
-void DateTimeModule::updateValue()
+void DateTimeModule::update()
 {
 	std::time_t t = std::time(0);   // get time now
 	std::tm* now = std::localtime(&t);

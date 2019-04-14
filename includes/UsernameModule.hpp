@@ -19,9 +19,9 @@ public:
 
 	virtual ~UsernameModule();
 
-	std::string &getValue() override;
+	std::string &getValue() ;
 
-	void updateValue() override;
+	void update() ;
 
 private:
 	std::string _value;
